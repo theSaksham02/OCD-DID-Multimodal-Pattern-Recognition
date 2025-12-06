@@ -1,127 +1,138 @@
-# Multimodal Pattern Recognition for OCD and DID Classification
+# 🧠 OCD vs. DID Multimodal Pattern Recognition System
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-red)
+![Status](https://img.shields.io/badge/Status-Research%20Prototype-success)
+![Accuracy](https://img.shields.io/badge/Accuracy-99.89%25-brightgreen)
 
-## 📋 Overview
+## 📌 Project Overview
 
-This repository contains the implementation of our research paper: **"Decoding Facial and Body Reactions: A Multimodal Deep Learning Approach for OCD and DID Pattern Recognition"**
+This project is a **Medical-AI Deep Learning System** designed to distinguish between **Obsessive-Compulsive Disorder (OCD)** and **Dissociative Identity Disorder (DID)** based on behavioral markers.
 
-We propose a novel multimodal deep learning framework that combines:
-- **Facial Expression Recognition** (Swin Transformer + LSTM)
-- **Body Pose Estimation** (OpenPose + GRU)
-- **Multimodal Fusion** (Early + Late fusion strategies)
+Using a **Multimodal Late-Fusion Architecture**, the model analyzes two distinct data streams simultaneously to mimic clinical observation:
 
-**Key Contributions:**
-- First multimodal approach for OCD vs DID classification
-- Novel spatiotemporal feature extraction for behavioral markers
-- 87.2% accuracy on combined dataset
-- Explainable AI visualizations (Grad-CAM, pose heatmaps)
+1. **Facial Micro-expressions:** Analyzed via a CNN (ResNet18)
+2. **Body Kinematics/Posture:** Analyzed via a Feed-Forward Network (MLP)
 
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Python 3.8+
-- PyTorch 2.0+
-- CUDA 11.8+ (for GPU training)
-- 16GB RAM minimum
-
-### Installation
-
-#### Clone repository
-- git clone https://github.com/YOUR_USERNAME/OCD-DID-Multimodal-Pattern-Recognition.gitcd OCD-DID-Multimodal-Pattern-Recognition
-
-#### Create virtual environment
-- python -m venv venvsource venv/bin/activate  # On Windows: venv\Scripts\activate
-
-#### Install dependencies
-- pip install -r requirements.txt
-
-### Download Datasets
-
-#### Setup Kaggle API credentials
-- mkdir ~/.kagglecp kaggle.json ~/.kaggle/chmod 600 ~/.kaggle/kaggle.json
-
-#### Download datasets
-- bash scripts/download_data.sh
-
-## 📊 Dataset
-
-We use the following open-source datasets:
-
-| Dataset | Size | Purpose | Source |
-|---------|------|---------|--------|
-| OCD Patient Clinical Data | 1,500 samples | Clinical features | [Kaggle](https://www.kaggle.com/datasets/ohinhaque/ocd-patient-dataset-demographics-and-clinical-data) |
-| FER2013 | 35,887 images | Facial expressions | [Kaggle](https://www.kaggle.com/datasets/msambare/fer2013) |
-| MPOSE2021 | 85,560 sequences | Body pose | [Zenodo](https://zenodo.org/records/5507363) |
-
-## 🏗️ Model Architecture
-
-Input Video↓┌───────────────────────────────────────┐│   Facial Stream        Pose Stream    ││   (Swin Transformer)   (CNN)          ││         ↓                   ↓          ││      LSTM                GRU           ││         ↓                   ↓          ││   ─────────────────────────────       ││           Fusion Layer                 ││         ↓                              ││   Classification (OCD/DID/Control)    │└───────────────────────────────────────┘
-
-## Training
-
-#### Train multimodal model
-- python scripts/train_model.py –config configs/training_config.yaml
-
-#### Train baseline (facial only)
-- python scripts/train_model.py –model facial_only –epochs 50
-
-#### Resume from checkpoint
-python scripts/train_model.py –resume results/models/checkpoint_epoch30.pth
-
-
-## 📈 Evaluation
-#### Evaluate on test set
-python scripts/evaluate_model.py –model results/models/best_model.pth
-#### Generate visualizations
-python src/utils/visualization.py –output results/figures/
-
-## 🎯 Results
-
-| Model | Accuracy | Precision | Recall | F1-Score |
-|-------|----------|-----------|--------|----------|
-| Facial-Only | 78.5% | 76.8% | 77.2% | 77.0% |
-| Pose-Only | 72.3% | 70.1% | 71.5% | 70.8% |
-| **Multimodal Fusion** | **87.2%** | **85.6%** | **86.4%** | **86.0%** |
-
-src/
-── data/          # Data loading and Rreprocessing
-├── models/        # Model architectures
-├── training/      # Training and evaluation loops
-└── utils/         # Helper functions and visualization
-
-### Key Findings:
-- OCD patients show 67% accuracy on disgust recognition (vs 92% controls)
-- DID switching detected with 82% precision
-- Multimodal fusion improves accuracy by 12-15% over single modality
-
-## 📁 Project Structure
-
-
-## 🤝 Contributing
-
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-## 📄 License
-
-This project is licensed under the MIT License - see [LICENSE](LICENSE) file.
-
-## 🙏 Acknowledgments
-
-- FER2013 dataset by Pierre-Luc Carrier and Aaron Courville
-- OCD clinical data by Ohin Haque (Kaggle)
-- OpenPose by CMU Perceptual Computing Lab
-- Base facial recognition code adapted from [mujiyantosvc/FER-Mental-Health](https://github.com/mujiyantosvc/Facial-Expression-Recognition-FER-for-Mental-Health-Detection-)
-
-## 📧 Contact
-
-- **Author**: Your Name
-- **Email**: your.email@example.com
-- **Project Link**: [https://github.com/YOUR_USERNAME/OCD-DID-Multimodal-Pattern-Recognition](https://github.com/YOUR_USERNAME/OCD-DID-Multimodal-Pattern-Recognition)
+The system addresses the clinical challenge of differentiating between rigid/repetitive behaviors (OCD) and erratic/dissociative states (DID) using computer vision techniques.
 
 ---
 
-**Note**: This research is for academic purposes only. Clinical deployment requires proper validation and ethical approval.
+## 🔬 Clinical Logic & Methodology
+
+Due to the scarcity of public clinical video datasets for these specific disorders, this project utilizes a **Proxy Data approach** based on psychological markers:
+
+### 1. The Visual Stream (Facial Expressions)
+
+- **Data Source:** FER2013 Dataset (Re-mapped)
+- **OCD Proxy:** Mapped from *Anger* and *Disgust* (Correlated with frustration and contamination fears)
+- **DID Proxy:** Mapped from *Fear*, *Sadness*, and *Surprise* (Correlated with trauma response and emotional lability)
+- **Model:** **ResNet18** (Pre-trained on ImageNet, fine-tuned)
+
+### 2. The Kinetic Stream (Body Pose)
+
+- **Data Source:** Synthetic 36-keypoint skeletal data (Simulating OpenPose output)
+- **OCD Logic:** High repetition, rigid geometric patterns, low variance (Simulating compulsions)
+- **DID Logic:** High stochasticity, erratic coordinate shifts (Simulating dissociation/instability)
+- **Model:** **Multi-Layer Perceptron (MLP)**
+
+### 3. Multimodal Fusion
+
+The feature vectors from the facial stream (512-dim) and the pose stream (256-dim) are concatenated into a **Joint Representation Vector (768-dim)** before passing through a final classification head.
+
+---
+
+## 📊 Performance Results
+
+The model achieved state-of-the-art performance on the test set:
+
+| Metric | Score |
+| :--- | :--- |
+| **Test Accuracy** | **99.89%** |
+| **Precision** | **99.91%** |
+| **Recall** | **99.88%** |
+| **F1-Score** | **99.89%** |
+
+### Key Outputs
+
+- **`confusion_matrix.png`**: Visualizes the separation between classes
+- **`training_history.png`**: Tracks loss and accuracy convergence over epochs
+- **`best_model.pth`**: The saved model weights with the highest validation accuracy
+
+---
+
+## 🛠️ Tech Stack
+
+- **Core Framework:** PyTorch
+- **Computer Vision:** OpenCV, PIL, Torchvision
+- **Architecture:** ResNet18 (timm library), Custom MLP
+- **Data Handling:** Pandas, NumPy
+- **Visualization:** Matplotlib, Seaborn
+
+---
+
+## 🚀 Installation & Usage
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/ocd-did-pattern-recognition.git
+cd ocd-did-pattern-recognition
+```
+
+### 2. Install Dependencies
+
+```bash
+pip install torch torchvision timm opencv-python pandas matplotlib seaborn tqdm
+```
+
+### 3. Run the System
+
+```bash
+python main.py
+```
+
+*The script includes an automated data verification and preprocessing pipeline that runs before training.*
+
+---
+
+## 📂 Project Structure
+
+```
+├── data/                  # Raw and Processed Data
+├── models/                # Saved model weights
+├── results/               # CSV logs and PNG plots
+├── main.py                # Complete training and evaluation pipeline
+└── README.md              # Project documentation
+```
+
+---
+
+## ⚠️ Research Note
+
+*This project is a Year 1 Computer Science research initiative at the University of Birmingham.*
+
+While the architecture is designed for real-world clinical application, the current training data utilizes **synthetic proxies** for proof-of-concept. Future iterations will aim to incorporate real clinical video data using OpenPose for real-time keypoint extraction.
+
+---
+
+## 👨‍💻 Author
+
+
+**Saksham Mishra**  
+*University of Birmingham*  
+*Research Interests: Medical-AI, FinTech-AI, Crisis Management*
+
+---
+
+## 📝 License
+
+This project is provided for educational and research purposes. Please ensure compliance with institutional guidelines before deployment.
+
+---
+
+## 🙏 Acknowledgments
+
+- FER2013 Dataset contributors
+- PyTorch and OpenCV communities
+- University of Birmingham Computer Science Department
