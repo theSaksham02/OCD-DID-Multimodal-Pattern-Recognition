@@ -110,7 +110,7 @@ python main.py
 
 ## ⚠️ Research Note
 
-*This project is a Year 1 Computer Science research initiative at the University of Birmingham.*
+*This project is a Year 2 Computer Science research initiative at the University of Birmingham.*
 
 While the architecture is designed for real-world clinical application, the current training data utilizes **synthetic proxies** for proof-of-concept. Future iterations will aim to incorporate real clinical video data using OpenPose for real-time keypoint extraction.
 
