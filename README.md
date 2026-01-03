@@ -1,138 +1,178 @@
-# 🧠 OCD vs. DID Multimodal Pattern Recognition System
+# OCD-DID-Multimodal-Pattern-Recognition
+
+A machine learning project for recognizing patterns in multimodal data related to OCD (Obsessive-Compulsive Disorder) and DID (Dissociative Identity Disorder) using deep learning and computer vision techniques.
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![PyTorch](https://img.shields.io/badge/PyTorch-Deep%20Learning-red)
 ![Status](https://img.shields.io/badge/Status-Research%20Prototype-success)
 ![Accuracy](https://img.shields.io/badge/Accuracy-99.89%25-brightgreen)
 
-## 📌 Project Overview
+## 📋 Project Overview
 
-This project is a **Medical-AI Deep Learning System** designed to distinguish between **Obsessive-Compulsive Disorder (OCD)** and **Dissociative Identity Disorder (DID)** based on behavioral markers.
+This project leverages multimodal data analysis to identify and recognize patterns associated with OCD and DID. It utilizes state-of-the-art deep learning models and interpretability techniques to understand model predictions.
 
-Using a **Multimodal Late-Fusion Architecture**, the model analyzes two distinct data streams simultaneously to mimic clinical observation:
-
-1. **Facial Micro-expressions:** Analyzed via a CNN (ResNet18)
-2. **Body Kinematics/Posture:** Analyzed via a Feed-Forward Network (MLP)
-
-The system addresses the clinical challenge of differentiating between rigid/repetitive behaviors (OCD) and erratic/dissociative states (DID) using computer vision techniques.
-
----
-
-## 🔬 Clinical Logic & Methodology
-
-Due to the scarcity of public clinical video datasets for these specific disorders, this project utilizes a **Proxy Data approach** based on psychological markers:
-
-### 1. The Visual Stream (Facial Expressions)
-
-- **Data Source:** FER2013 Dataset (Re-mapped)
-- **OCD Proxy:** Mapped from *Anger* and *Disgust* (Correlated with frustration and contamination fears)
-- **DID Proxy:** Mapped from *Fear*, *Sadness*, and *Surprise* (Correlated with trauma response and emotional lability)
-- **Model:** **ResNet18** (Pre-trained on ImageNet, fine-tuned)
-
-### 2. The Kinetic Stream (Body Pose)
-
-- **Data Source:** Synthetic 36-keypoint skeletal data (Simulating OpenPose output)
-- **OCD Logic:** High repetition, rigid geometric patterns, low variance (Simulating compulsions)
-- **DID Logic:** High stochasticity, erratic coordinate shifts (Simulating dissociation/instability)
-- **Model:** **Multi-Layer Perceptron (MLP)**
-
-### 3. Multimodal Fusion
-
-The feature vectors from the facial stream (512-dim) and the pose stream (256-dim) are concatenated into a **Joint Representation Vector (768-dim)** before passing through a final classification head.
-
----
-
-## 📊 Performance Results
-
-The model achieved state-of-the-art performance on the test set:
-
-| Metric | Score |
-| :--- | :--- |
-| **Test Accuracy** | **99.89%** |
-| **Precision** | **99.91%** |
-| **Recall** | **99.88%** |
-| **F1-Score** | **99.89%** |
-
-### Key Outputs
-
-- **`confusion_matrix.png`**: Visualizes the separation between classes
-- **`training_history.png`**: Tracks loss and accuracy convergence over epochs
-- **`best_model.pth`**: The saved model weights with the highest validation accuracy
-
----
+### Key Features
+- **Multimodal Pattern Recognition**: Combines multiple data modalities for comprehensive analysis
+- **Deep Learning Models**: Uses TIMM (PyTorch Image Models) for robust feature extraction
+- **Model Interpretability**: Implements Grad-CAM for visualization of model decision-making
+- **GPU Acceleration**: Optimized for NVIDIA GPUs (Tesla T4+)
+- **Kaggle Integration**: Easy dataset access and management
 
 ## 🛠️ Tech Stack
 
-- **Core Framework:** PyTorch
-- **Computer Vision:** OpenCV, PIL, Torchvision
-- **Architecture:** ResNet18 (timm library), Custom MLP
-- **Data Handling:** Pandas, NumPy
-- **Visualization:** Matplotlib, Seaborn
+| Component | Technology |
+|-----------|-----------|
+| **Framework** | PyTorch 2.9.1 |
+| **Vision** | TorchVision, OpenCV |
+| **Models** | TIMM (PyTorch Image Models) |
+| **Interpretability** | Grad-CAM |
+| **Data** | Kaggle API |
+| **GPU** | CUDA 12.4 (Tesla T4) |
 
----
+## 📦 Installation
 
-## 🚀 Installation & Usage
+### Prerequisites
+- Python 3.8+
+- CUDA 12.4 (for GPU support)
+- pip or conda
 
-### 1. Clone the Repository
+### Setup
 
+1. **Clone the repository**
 ```bash
-git clone https://github.com/YOUR_USERNAME/ocd-did-pattern-recognition.git
-cd ocd-did-pattern-recognition
+git clone https://github.com/your-username/OCD-DID-Multimodal-Pattern-Recognition.git
+cd OCD-DID-Multimodal-Pattern-Recognition
 ```
 
-### 2. Install Dependencies
-
+2. **Create a virtual environment** (recommended)
 ```bash
-pip install torch torchvision timm opencv-python pandas matplotlib seaborn tqdm
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-### 3. Run the System
-
+3. **Install dependencies**
 ```bash
-python main.py
+pip install -r requirements.txt
 ```
 
-*The script includes an automated data verification and preprocessing pipeline that runs before training.*
+## 🚀 Quick Start
 
----
+### In Google Colab
+```python
+# Clone the repository
+!git clone https://github.com/your-username/OCD-DID-Multimodal-Pattern-Recognition.git
+%cd OCD-DID-Multimodal-Pattern-Recognition
 
-## 📂 Project Structure
+# Install dependencies
+!pip install -r requirements.txt
+
+# Mount Google Drive (if needed)
+from google.colab import drive
+drive.mount('/content/drive')
+```
+
+### Kaggle Dataset Setup
+```python
+# Configure Kaggle API
+from google.colab import files
+files.upload()  # Upload kaggle.json
+
+!mkdir -p ~/.kaggle
+!cp kaggle.json ~/.kaggle/
+!chmod 600 ~/.kaggle/kaggle.json
+
+# Download datasets
+!kaggle datasets download -d <dataset-name>
+```
+
+## 📊 Project Structure
 
 ```
-├── data/                  # Raw and Processed Data
-├── models/                # Saved model weights
-├── results/               # CSV logs and PNG plots
-├── main.py                # Complete training and evaluation pipeline
-└── README.md              # Project documentation
+OCD-DID-Multimodal-Pattern-Recognition/
+├── notebooks/
+│   └── main_analysis.ipynb          # Main Colab notebook
+├── data/
+│   ├── raw/                         # Raw datasets
+│   └── processed/                   # Processed data
+├── models/
+│   └── trained_models/              # Saved model checkpoints
+├── src/
+│   ├── data_loader.py              # Data loading utilities
+│   ├── model.py                    # Model architecture
+│   ├── train.py                    # Training script
+│   └── utils.py                    # Helper functions
+├── results/
+│   ├── visualizations/             # Grad-CAM heatmaps
+│   └── metrics/                    # Performance metrics
+├── requirements.txt                # Project dependencies
+├── README.md                       # This file
+└── .gitignore                      # Git ignore file
 ```
 
----
+## 🔬 Model Architecture
 
-## ⚠️ Research Note
+- **Backbone**: TIMM pre-trained models (ResNet, EfficientNet, ViT, etc.)
+- **Input**: Multimodal data (images, features, etc.)
+- **Output**: Classification/Pattern Recognition predictions
+- **Interpretability**: Grad-CAM visualization for model explanations
 
-*This project is a Year 2 Computer Science research initiative at the University of Birmingham.*
+## 📈 Training & Evaluation
 
-While the architecture is designed for real-world clinical application, the current training data utilizes **synthetic proxies** for proof-of-concept. Future iterations will aim to incorporate real clinical video data using OpenPose for real-time keypoint extraction.
+```python
+# Example training workflow
+from src.model import load_model
+from src.train import train_model
 
----
+model = load_model(model_name='resnet50', pretrained=True)
+history = train_model(model, train_loader, val_loader, epochs=50)
+```
 
-## 👨‍💻 Author
+## 🎨 Visualization & Interpretability
 
+Uses Grad-CAM to visualize which regions of the input the model focuses on:
 
-**Saksham Mishra**  
-*University of Birmingham*  
-*Research Interests: Medical-AI, FinTech-AI, Crisis Management*
+```python
+from grad_cam import GradCAM
 
----
+grad_cam = GradCAM(model, target_layer)
+heatmap = grad_cam.generate_cam(input_image)
+```
 
-## 📝 License
+## 📝 Notes
 
-This project is provided for educational and research purposes. Please ensure compliance with institutional guidelines before deployment.
+- **GPU Memory**: Optimized for 15GB VRAM (Tesla T4)
+- **Torch Version**: Using torch 2.9.1 (note: torchaudio compatibility)
+- **CUDA**: Version 12.4
 
----
+## 🤝 Contributing
+
+Contributions are welcome! Please:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 👨‍💼 Author
+Saksham Mishra
+
+## 📧 Contact
+
+For questions or inquiries, please reach out via:
+- GitHub Issues
+- Email: your-email@example.com
 
 ## 🙏 Acknowledgments
 
-- FER2013 Dataset contributors
-- PyTorch and OpenCV communities
-- University of Birmingham Computer Science Department
+- PyTorch & TorchVision teams
+- TIMM library contributors
+- Grad-CAM authors
+- Kaggle community for datasets
+
+---
+
+**Last Updated**: January 3, 2026
