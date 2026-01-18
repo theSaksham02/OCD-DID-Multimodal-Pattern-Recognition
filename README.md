@@ -159,12 +159,14 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 👨‍💼 Author
 Saksham Mishra
+Sukaina Ali
+Abeer Arshad
 
 ## 📧 Contact
 
 For questions or inquiries, please reach out via:
 - GitHub Issues
-- Email: your-email@example.com
+- Email: sakshammishra0205@gmail.com
 
 ## 🙏 Acknowledgments
 
@@ -175,4 +177,4 @@ For questions or inquiries, please reach out via:
 
 ---
 
-**Last Updated**: January 3, 2026
+**Last Updated**: January 18, 2026
